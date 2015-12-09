@@ -140,19 +140,19 @@ class Repository(object):
                 start_time = time.time()
                 
                 while time.time() - start_time < timeout:
-                    if p.poll() != None:
+                    if p.poll() is not None:
                         break
                     time.sleep(0.001)               
 
                 timeout_occured = False
 
-                if p.poll() == None:
+                if p.poll() is None:
                     timeout_occured = True
                     stdout.flush()
                     stderr.flush()
                     p.terminate()
                     time.sleep(0.1)
-                    if p.poll() == None:
+                    if p.poll() is None:
                         p.kill()
 
                 read_output()
@@ -443,7 +443,7 @@ class Repository(object):
         return n_commits
 
     def get_files_in_commit(self,commit_sha,path = None):
-        if path == None:
+        if path is None:
             opts = ["--full-tree","-r",commit_sha]
         else:
             opts = ["%s:%s" % (commit_sha,path)]
